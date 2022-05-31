@@ -1,0 +1,11 @@
+(fp_lib_table
+  (lib (name "ul_STM32G441KBT3")(type "KiCad")(uri "${KIPRJMOD}/Parts/ul_STM32G441KBT3/KiCAD/2022-03-25_14-10-15/ul_STM32G441KBT3.pretty")(options "")(descr ""))
+  (lib (name "DRV8323RSRGZR")(type "KiCad")(uri "${KIPRJMOD}/Parts/DRV8323RSRGZR")(options "")(descr ""))
+  (lib (name "3220-10-0100-00")(type "KiCad")(uri "${KIPRJMOD}/Parts/3220-10-0100-00/3220-10-0100-00.pretty")(options "")(descr ""))
+  (lib (name "USB4105-GF-A")(type "KiCad")(uri "${KIPRJMOD}/Parts/USB4105-GF-A")(options "")(descr ""))
+  (lib (name "ul_ASPI-0628-4R7M-T1")(type "KiCad")(uri "${KIPRJMOD}/Parts/ul_ASPI-0628-4R7M-T1/ul_ASPI-0628-4R7M-T1.pretty")(options "")(descr ""))
+  (lib (name "ul_LTC3631EMS8E-5-TRPBF")(type "KiCad")(uri "${KIPRJMOD}/Parts/ul_LTC3631EMS8E-5-TRPBF/ul_LTC3631EMS8E-5-TRPBF.pretty")(options "")(descr ""))
+  (lib (name "LP5907MFX-3")(type "KiCad")(uri "${KIPRJMOD}/Parts/LP5907MFX-3.3_NOPB")(options "")(descr ""))
+  (lib (name "CBC2518T220M")(type "KiCad")(uri "${KIPRJMOD}/Parts/CBC2518T220M")(options "")(descr ""))
+  (lib (name "ul_B6B-PH-K-S-LF-SN")(type "KiCad")(uri "${KIPRJMOD}/Parts/ul_B6B-PH-K-S-LF-SN-/ul_B6B-PH-K-S-LF-SN.pretty")(options "")(descr ""))
+)

@@ -1,0 +1,207 @@
+function insertDocLink(pDocTypeShort, pDisplayType, product)
+{
+	var eId = pDisplayType + '-' + pDocTypeShort;
+	var pDocURL = '/content/docs/' + product.sku + '-' + pDocTypeShort + '.pdf';
+	var linkText = '';
+	var pDocTypeLong = 'Drawing';
+		
+	switch(pDocTypeShort)
+	{
+		case 'UM':
+			pDocTypeLong = 'User&rsquo;s Manual';
+			break;
+		case 'DR':
+			pDocTypeLong = 'Drawing';
+			break;
+		case 'DS':
+			pDocTypeLong = 'Datasheet';
+			break;
+		case 'GS':
+			pDocTypeLong = 'Getting Started Guide';
+			break;
+		case 'QS':
+			pDocTypeLong = 'Quick Start Guide';
+			break;
+		case 'BG':
+			pDocTypeLong = 'Build Guide';
+			break;			
+		default:
+			break;
+	}
+	
+	switch(pDisplayType)
+	{
+		case 'TITLE':
+			linkText = product.title + ' ' + pDocTypeLong;
+			break;
+		case 'SKU':
+			linkText = product.sku + ' ' + pDocTypeLong;
+			break;
+		default:
+			linkText = product.sku + ' ' + pDocTypeLong;
+			pDocURL = '/content/docs/' + pDisplayType;
+			eId = pDocTypeShort;
+			break;
+			
+	}
+		
+	
+	
+	if(!!document.getElementById(eId))
+	{
+		document.getElementById(eId).innerHTML = '<a title="'
+				+ linkText
+				+ '" href="'
+				+ pDocURL
+				+ '" target="_blank">'
+				+ linkText
+				+ '</a>';	
+	}
+}
+
+function insertCADLink(pDocTypeShort, pDisplayType, product)
+{
+	var eId = pDisplayType + '-' + pDocTypeShort;
+	var linkText = '';
+	var pDocTypeLong = '';
+	var pDocExtension = '';
+	var pDocDirectory = '';
+		
+	switch(pDocTypeShort)
+	{
+		case 'STP':
+		default:
+			pDocTypeLong = 'STEP File';
+			pDocExtension = '.STEP';
+			break;
+	}
+	
+	switch(pDisplayType)
+	{
+		case 'TITLE':
+			linkText = product.title + ' ' + pDocTypeLong;
+			break;
+		case 'SKU':
+		default:
+			linkText = product.sku + ' ' + pDocTypeLong;
+			break;
+		
+	}
+		
+	var pDocURL = '/content/cad/'+ product.sku + '.STEP';
+	
+	if(!!document.getElementById(eId))
+	{
+				document.getElementById(eId).innerHTML = '<a title="'
+				+ linkText  
+				+ '" href="'
+				+ pDocURL
+				+ '" download="'
+				+ product.sku
+				+ pDocExtension
+				+ '">'
+				+ linkText
+				+ '</a>';	
+	}
+}
+
+function insertCADLinkByFile(eId, linkText, pDocFileName)
+{
+	if(!!document.getElementById(eId))
+	{
+		var pDocURL = '/content/cad/' + pDocFileName;
+				document.getElementById(eId).innerHTML = '<a title="'
+				+ linkText
+				+ '" href="'
+				+ pDocURL
+				+ '" download="'
+				+ pDocFileName
+				+ '">'
+				+ linkText
+				+ '</a>';
+	}
+}
+
+function insertDocLinkByFile(eId, linkText, pDocFileName)
+{
+	if(!!document.getElementById(eId))
+	{
+		var pDocURL = '/content/docs/' + pDocFileName;
+				document.getElementById(eId).innerHTML = '<a title="'
+				+ linkText
+				+ '" href="'
+				+ pDocURL
+				+ '" target="_blank">'
+				+ linkText
+				+ '</a>';
+	}
+}
+
+insertDocLink('UM', 'SKU', currentProduct);
+insertDocLink('UM', 'TITLE', currentProduct);
+
+insertDocLink('DR', 'SKU', currentProduct);
+insertDocLink('DR', 'TITLE', currentProduct);
+
+insertDocLink('DS', 'SKU', currentProduct);
+insertDocLink('DS', 'TITLE', currentProduct);
+
+insertDocLink('GS', 'SKU', currentProduct);
+insertDocLink('GS', 'TITLE', currentProduct);
+
+insertDocLink('QS', 'SKU', currentProduct);
+insertDocLink('QS', 'TITLE', currentProduct);
+
+insertDocLink('BG', 'SKU', currentProduct);
+insertDocLink('BG', 'TITLE', currentProduct);
+
+insertCADLink('STP', 'SKU', currentProduct);
+insertCADLink('STP', 'TITLE', currentProduct);
+
+insertDocLinkByFile('SprocketGuide', 'Sprocket Guide', 'Sprocket-Guide.pdf');
+insertDocLinkByFile('GearGuide', 'Gear Guide', 'Gear-Guide.pdf');
+insertDocLinkByFile('BuildingGuide', 'Building System Guide', 'BuildingSystem-Guide.pdf');
+insertDocLinkByFile('2StageLiftEx', 'Lift Kit Guide', 'LiftKit-Guide.pdf');
+insertDocLinkByFile('1inLinearMotionGuide', '1" Linear Motion Guide', '1inLinearMotion-Guide.pdf');
+insertDocLinkByFile('1inBracketGuide', '1" Bracket Installation Guide', '1inBracketInstallation-Guide.pdf');
+
+insertCADLinkByFile('AllREVPartsSTEPzip', 'Complete REV Parts Library', 'ALL-REV-PARTS-STEP.zip');
+
+//Products with common drawing file. Link will be the unique SKU, but the file is the common file.
+insertDocLink('SprocketDrawings' ,'Sprockets-25-Plastic-DR.pdf', currentProduct);
+insertDocLink('GearDrawings' ,'Gears-75MOD-Plastic-DR.pdf', currentProduct);
+insertDocLink('PulleyDrawings' ,'6mm-Round-Belt-Pulleys-DR.pdf', currentProduct);
+insertDocLink('15mmPillowBlockDrawings' ,'15mm-Pillow-Blocks-DR.pdf', currentProduct);
+insertDocLink('15mmPlasticAngleBracketDrawings' ,'15mm-Plastic-Angle-Brackets-DR.pdf', currentProduct);
+insertDocLink('OmniWheelDrawings' ,'Omni-Wheels-DR.pdf', currentProduct);
+
+/*
+if(!!document.getElementById(docElementId))
+{
+	$.ajax({
+		type: 'HEAD',
+		url: '/content/docs/'+ currentProduct.sku + '-UM.pdf',
+		success: function() {
+			document.getElementById(docElementId).innerHTML= '<a title="'+ currentProduct.title + ' User&rsquo;s Manual" href="/content/docs/' + currentProduct.title +'-UM.pdf" download="' + currentProduct.sku +'-UM.pdf">' + currentProduct.title + ' User&rsquo;s Manual</a>';
+		},  
+		error: function() {
+			document.getElementById(docElementId).innerHTML=currentProduct.title + ' User&rsquo;s Manual Coming Soon';
+		}
+	});
+}
+
+docElementId = "SKU-DR";
+if(!!document.getElementById(docElementId))
+{
+	$.ajax({
+		type: 'HEAD',
+		url: '/content/docs/'+ currentProduct.sku + '-DR.pdf',
+		success: function() {
+			document.getElementById(docElementId).innerHTML= '<a title="'+ currentProduct.sku + ' Drawing" href="/content/docs/' + currentProduct.sku +'-DR.pdf" download="' + currentProduct.sku +'-DR.pdf">' + currentProduct.sku + ' Drawing</a>';
+		},  
+		error: function() {
+			document.getElementById(docElementId).innerHTML=currentProduct.title + ' User&rsquo;s Manual Coming Soon';
+		}
+	});
+}
+*/

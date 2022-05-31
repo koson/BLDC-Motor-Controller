@@ -320,6 +320,14 @@
     [
       "e63e39d7-6ac0-4ffd-8aa3-1841a4541b55",
       ""
+    ],
+    [
+      "0c9d8d04-ebaf-482d-a4dd-5dc4f08c5b98",
+      "MOSFETS"
+    ],
+    [
+      "9d337b68-ed52-40f1-83dd-3ddf95daee44",
+      "Controller"
     ]
   ],
   "text_variables": {}

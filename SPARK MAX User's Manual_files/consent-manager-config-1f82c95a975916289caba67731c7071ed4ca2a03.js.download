@@ -1,0 +1,171 @@
+const TRACKING_COOKIE = "bc_consent";
+
+// Create hidden div for consent manager modal binding
+function injectConsentBanner() {
+  var elem = document.createElement("div");
+  elem.id = "consent-manager";
+  elem.style.cssText =
+    "position: fixed;left: 0;right: 0;bottom: 0;z-index: 1000; background-color:rgba(255,255,255,0.0)";
+  document.body.appendChild(elem);
+}
+
+// Create div for consent manager update button modal binding
+function injectConsentBannerUpdate() {
+  const height = "48px";
+  const backgroundColor = "#454545";
+  const textColor = "#ffffff";
+
+  const FONT =
+    "font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;font-smoothing: antialiased;font-size: 14px;font-weight: 400;letter-spacing: -0.05px;line-height: " +
+    height +
+    ";";
+
+  var banner = document.createElement("div");
+  banner.id = "consent-manager-update-banner";
+  banner.style.cssText =
+    "position: fixed;left: 0;right: 0;bottom: 0; z-index: 999; height: " +
+    height +
+    " ; background-color: " +
+    backgroundColor +
+    ";" +
+    FONT;
+
+  banner.innerHTML =
+    '<a style="color:' +
+    textColor +
+    ';margin-left:16px;" onclick="event.stopPropagation(); window.consentManager.openConsentManager();">Manage Website Data Collection Preferences</a>';
+
+  document.body.appendChild(banner);
+}
+
+var havePreferences = document.cookie.indexOf(TRACKING_COOKIE) > 0;
+
+injectConsentBanner();
+
+if (havePreferences) {
+  injectConsentBannerUpdate();
+}
+
+// Setup consent manager config
+window.consentManagerConfig = function(exports) {
+
+  // Segment preference keys to BC enum
+  const preferenceEnumMap = {
+    functional: 2,
+    marketingAndAnalytics: 3,
+    advertising: 4
+  };
+
+  // Bind to preferences saved event
+  exports.preferences.onPreferencesSaved(function(prefs) {
+    let preferences = prefs.customPreferences;
+    let preferenceRequest = {
+      allow: [],
+      deny: []
+    };
+
+    for (i = 0; i < Object.keys(preferences).length; i++) {
+      let cat = 0;
+
+      if (preferenceEnumMap.hasOwnProperty(Object.keys(preferences)[i])) {
+        cat = preferenceEnumMap[Object.keys(preferences)[i]];
+      }
+
+      if (preferences[Object.keys(preferences)[i]]) {
+        preferenceRequest.allow.push(cat);
+      } else {
+        preferenceRequest.deny.push(cat);
+      }
+    }
+
+    fetch("/api/storefront/consent", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(preferenceRequest)
+    })
+      .then(function() {
+        document.location.reload(true);
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+  });
+
+  var React = exports.React;
+
+  var hasPrivacyPolicy =
+    window.consentManagerStoreConfig().privacyPolicyUrl !== undefined &&
+    window.consentManagerStoreConfig().privacyPolicyUrl !== null &&
+    window.consentManagerStoreConfig().privacyPolicyUrl !== "";
+
+  var bannerContent = React.createElement(
+    "span",
+    null,
+    "We use cookies (and other similar technologies) to collect data to improve your shopping experience. ",
+    hasPrivacyPolicy
+      ? "By using our website, you're agreeing to the collection of data as described in our "
+      : "",
+    hasPrivacyPolicy
+      ? React.createElement(
+          "a",
+          {
+            href: window.consentManagerStoreConfig().privacyPolicyUrl,
+            target: "_blank"
+          },
+          "Privacy Policy"
+        )
+      : "",
+    hasPrivacyPolicy ? "." : ""
+  );
+
+  var bannerSubContent = "You can change your preferences at any time";
+  var preferencesDialogTitle = "Website Data Collection Preferences";
+
+  var preferencesDialogContent = React.createElement(
+    "span",
+    null,
+    window.consentManagerStoreConfig().storeName +
+      " uses data collected by cookies and JavaScript libraries to improve your shopping experience. ",
+    hasPrivacyPolicy ? "By using our website, you're agreeing to our " : "",
+    hasPrivacyPolicy
+      ? React.createElement(
+          "a",
+          {
+            href: window.consentManagerStoreConfig().privacyPolicyUrl,
+            target: "_blank"
+          },
+          "Privacy Policy"
+        )
+      : "",
+    hasPrivacyPolicy ? ". " : "",
+    'The table below outlines how we use this data by category. To opt out of a category of data collection, select "No" and save your preferences.'
+  );
+
+  var cancelDialogTitle = "You have unsaved changes";
+  var cancelDialogContent =
+    "You have unsaved changes to your data collection preferences. Are you sure you want to close without saving?";
+
+  var writeKey =
+    window.consentManagerStoreConfig === undefined
+      ? ""
+      : window.consentManagerStoreConfig.writeKey;
+
+  return {
+    container: "#consent-manager",
+    writeKey: writeKey,
+    shouldRequireConsent: function() {
+      return !havePreferences;
+    },
+    bannerContent: bannerContent,
+    bannerSubContent: bannerSubContent,
+    bannerBackgroundColor: "#454545",
+    preferencesDialogTitle: preferencesDialogTitle,
+    preferencesDialogContent: preferencesDialogContent,
+    cancelDialogTitle: cancelDialogTitle,
+    cancelDialogContent: cancelDialogContent,
+    closeBehavior: "dismiss",
+    shouldReload: false
+  };
+};
