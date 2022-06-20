@@ -3,5 +3,6 @@
   (lib (name "USB4105-GF-A")(type "KiCad")(uri "${KIPRJMOD}/Parts/USB4105-GF-A/USB4105-GF-A.kicad_sym")(options "")(descr ""))
   (lib (name "2022-03-25_14-10-15")(type "KiCad")(uri "${KIPRJMOD}/Parts/ul_STM32G441KBT3/KiCAD/2022-03-25_14-10-15/2022-03-25_14-10-15.kicad_sym")(options "")(descr ""))
   (lib (name "LP5907MFX-3.3_NOPB")(type "Legacy")(uri "${KIPRJMOD}/Parts/LP5907MFX-3.3_NOPB/LP5907MFX-3.3_NOPB.lib")(options "")(descr ""))
-  (lib (name "ul_LTC3631EMS8E-5-TRPBF")(type "Legacy")(uri "${KIPRJMOD}/Parts/ul_LTC3631EMS8E-5-TRPBF/ul_LTC3631EMS8E-5-TRPBF.lib")(options "")(descr ""))
+  (lib (name "ul_FAN48610UC50X")(type "Legacy")(uri "${KIPRJMOD}/Parts/ul_FAN48610UC50X/ul_FAN48610UC50X.lib")(options "")(descr ""))
+  (lib (name "EVQ-P7J01P")(type "Legacy")(uri "${KIPRJMOD}/Parts/EVQ-P7J01P/EVQ-P7J01P.lib")(options "")(descr ""))
 )
